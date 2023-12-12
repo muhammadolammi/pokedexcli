@@ -7,10 +7,6 @@ import (
 	"strings"
 )
 
-func commandExit() {
-	os.Exit(0)
-}
-
 type cliCommand struct {
 	name        string
 	description string
