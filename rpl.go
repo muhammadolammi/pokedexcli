@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -28,18 +28,16 @@ func getCommands() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "Get next 20 location area in game",
-			callback:    func() error { return nil },
+			callback:    mapCallback,
 		},
 		"mapb": {
 			name:        "mapb",
 			description: "Get previous 20 location area in game",
-			callback: func() error {
-				return nil
-			},
+			callback:    mapbCallback,
 		}}
 }
 
-func Rpl() {
+func Rpl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("pokedex > ")
@@ -57,7 +55,7 @@ func Rpl() {
 			fmt.Println("Invalid Commad")
 			continue
 		}
-		commands[command].callback()
+		commands[command].callback(cfg)
 
 	}
 }
