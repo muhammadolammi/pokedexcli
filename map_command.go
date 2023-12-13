@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func mapCallback(cfg *config) error {
+func mapCallback(cfg *config, area string) error {
 	pokiClient := cfg.pokeApiClient
 	res, err := pokiClient.MakeRequest(cfg.next)
 	if err != nil {

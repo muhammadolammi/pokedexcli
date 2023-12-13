@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func mapbCallback(cfg *config) error {
+func mapbCallback(cfg *config, area string) error {
 	if cfg.previous == nil {
 		return errors.New("this is the first page, nothing to print")
 	}

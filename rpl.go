@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -34,7 +34,29 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Get previous 20 location area in game",
 			callback:    mapbCallback,
-		}}
+		},
+		"explore": {
+			name:        "explore",
+			description: "call this function as explore<area> to get pokemon in input areas. eg explore pastoria-city-area",
+			callback:    exploreCallback,
+		},
+		"catch": {
+			name:        "catch",
+			description: "call this function as catch<name> to get catch the pokeman . eg catch pikachu",
+			callback:    catchCallBack,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "call this function as inspect<name> to know if you have catched the pokeman . eg inspect pikachu",
+			callback:    inspectCallback,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "call this function as to get all catched pokemans",
+			callback:    pokedexCallback,
+		},
+	}
+
 }
 
 func Rpl(cfg *config) {
@@ -50,12 +72,17 @@ func Rpl(cfg *config) {
 		}
 		cleaned := cleanText(text)
 		command := cleaned[0]
+		area := ""
+		if len(cleaned) > 1 {
+			area = cleaned[1]
+		}
+
 		commands := getCommands()
 		if _, ok := commands[command]; !ok {
 			fmt.Println("Invalid Commad")
 			continue
 		}
-		err := commands[command].callback(cfg)
+		err := commands[command].callback(cfg, area)
 		if err != nil {
 			fmt.Println(err)
 		}
